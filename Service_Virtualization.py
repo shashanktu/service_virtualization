@@ -291,7 +291,11 @@ with col2:
                 payload = {
                     "request": {
                         "method": "GET",
-                        "url":"/service-virtualisation"+ mock_path
+                        "url":"/service-virtualisation"+ mock_path,
+                        "basicAuth": {
+                            "username": "pshmockapi",
+                            "password": "mock@api123"
+                        }
                     },
                     "response": {
                         "body": st.session_state.validated_response

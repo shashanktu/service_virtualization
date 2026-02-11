@@ -28,7 +28,11 @@ def update_wiremock(wiremock_id, url, response):
     payload = {
                         "request": {
                             "method": "GET",
-                            "url": mock_url_path
+                            "url": mock_url_path,
+                            "basicAuth": {
+                                "username": "pshmockapi",
+                                "password": "mock@api123"
+                            }
                         },
                         "response": {
                             "body": response

@@ -5,6 +5,7 @@ import pandas as pd
 from datetime import datetime
 import sys
 import os
+import base64
 
 # Add parent directory to path to import from sql.py
 # sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -95,7 +96,7 @@ try:
         st.subheader("All Records - Table View")
         
         # Create table headers
-        header_cols = st.columns([1, 1, 3, 3, 2, 2, 2, 2, 1])
+        header_cols = st.columns([1, 1, 3, 3, 2, 1, 2, 2, 1, 1])
         with header_cols[0]:
             st.write("**ID**")
         with header_cols[1]:
@@ -113,13 +114,20 @@ try:
         with header_cols[7]:
             st.write("**Created At**")
         with header_cols[8]:
+            st.write("**View**")
+        with header_cols[9]:
             st.write("**Action**")
         
         st.markdown("---")
         
+        # Hardcoded credentials
+        USERNAME = "pshmockapi"
+        PASSWORD = "mock@api123"
+        credentials = base64.b64encode(f"{USERNAME}:{PASSWORD}".encode()).decode()
+        
         # Display data rows
         for index, row in df.iterrows():
-            data_cols = st.columns([1, 1, 3, 3, 2, 2, 2, 2, 1])
+            data_cols = st.columns([1, 1, 3, 3, 2, 1, 2, 2, 1, 1])
             
             with data_cols[0]:
                 st.write(row['id'])
@@ -138,6 +146,11 @@ try:
             with data_cols[7]:
                 st.write(row.get('created_at', 'N/A'))
             with data_cols[8]:
+                mock_url = row.get('mock_url', '')
+                if mock_url and mock_url != 'N/A':
+                    auth_url = mock_url.replace('https://', f'https://{USERNAME}:{PASSWORD}@')
+                    st.markdown(f'<a href="{auth_url}" target="_blank"><button style="background-color:#0066cc;color:white;border:none;padding:5px 10px;border-radius:4px;cursor:pointer;">View</button></a>', unsafe_allow_html=True)
+            with data_cols[9]:
                 if st.button("Delete", key=f"delete_{row['id']}", type="secondary"):
                     value = delete_wiremock_data(row['wiremock_id'])
                     if value:
