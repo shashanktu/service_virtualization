@@ -239,15 +239,48 @@ def update_operation_nullable():
     cursor.close()
     conn.close()
 
-def insert_wiremock_data(original_url, operation, api_details, mock_url=None, wiremock_id=None, lob=None, environment=None, headers=None, parameters=None):
+def add_routing_url_column():
+    """
+    Add routing_url column and make original_url nullable
+    """
+    conn = connect_to_retool()
+    cursor = conn.cursor()
+    
+    try:
+        cursor.execute("""
+            SELECT column_name 
+            FROM information_schema.columns 
+            WHERE table_name = 'wiremock' AND table_schema = 'public';
+        """)
+        existing_columns = [row[0] for row in cursor.fetchall()]
+        
+        if 'routing_url' not in existing_columns:
+            cursor.execute("ALTER TABLE wiremock ADD COLUMN routing_url TEXT NOT NULL;")
+            print(" Added 'routing_url' column to wiremock table")
+        
+        cursor.execute("ALTER TABLE wiremock ALTER COLUMN original_url DROP NOT NULL;")
+        print(" Made original_url nullable")
+        
+        conn.commit()
+        
+    except Exception as e:
+        print(f"❌ Error updating table structure: {e}")
+        conn.rollback()
+    
+    cursor.close()
+    conn.close()
+
+def insert_wiremock_data(routing_url, original_url=None, operation=None, api_details=None, mock_url=None, wiremock_id=None, lob=None, environment=None, headers=None, parameters=None):
     """
     Insert data into the wiremock table
     
     Args:
-        original_url (str): The original URL being mocked
-        operation (str): The HTTP operation (GET, POST, PUT, DELETE, etc.)
-        api_details (str): JSON string or text containing API details
+        routing_url (str): The routing URL (mandatory)
+        original_url (str, optional): The original URL being mocked
+        operation (str, optional): The HTTP operation (GET, POST, PUT, DELETE, etc.)
+        api_details (str, optional): JSON string or text containing API details
         mock_url (str, optional): The mock URL created for this endpoint
+        wiremock_id (str, optional): Wiremock ID
         lob (str, optional): Line of Business (Policy, Claims, Small Business, etc.)
         environment (str, optional): Environment (Dev, Test, Staging, Prod)
         headers (str, optional): JSON string containing headers
@@ -261,12 +294,12 @@ def insert_wiremock_data(original_url, operation, api_details, mock_url=None, wi
         cursor = conn.cursor()
 
         insert_query = """
-        INSERT INTO wiremock (original_url, operation, api_details, mock_url, wiremock_id, lob, environment, headers, parameters)
-        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
+        INSERT INTO wiremock (routing_url, original_url, operation, api_details, mock_url, wiremock_id, lob, environment, headers, parameters)
+        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
         RETURNING id;
         """
 
-        cursor.execute(insert_query, (original_url, operation, api_details, mock_url, wiremock_id, lob, environment, headers, parameters))
+        cursor.execute(insert_query, (routing_url, original_url, operation, api_details, mock_url, wiremock_id, lob, environment, headers, parameters))
         inserted_id = cursor.fetchone()[0]
         
         conn.commit()
@@ -299,14 +332,14 @@ def get_wiremock_data(wiremock_id=None):
         cursor = conn.cursor()
 
         if wiremock_id:
-            query = "SELECT id, original_url, operation, api_details, mock_url, lob, environment, headers, parameters, wiremock_id, created_at, updated_at FROM wiremock WHERE id = %s;"
+            query = "SELECT id, routing_url, original_url, operation, api_details, mock_url, lob, environment, headers, parameters, wiremock_id, created_at, updated_at FROM wiremock WHERE id = %s;"
             cursor.execute(query, (wiremock_id,))
         else:
-            query = "SELECT id, original_url, operation, api_details, mock_url, lob, environment, headers, parameters, wiremock_id, created_at, updated_at FROM wiremock ORDER BY created_at DESC;"
+            query = "SELECT id, routing_url, original_url, operation, api_details, mock_url, lob, environment, headers, parameters, wiremock_id, created_at, updated_at FROM wiremock ORDER BY created_at DESC;"
             cursor.execute(query)
 
         rows = cursor.fetchall()
-        columns = ['id', 'original_url', 'operation', 'api_details', 'mock_url', 'lob', 'environment', 'headers', 'parameters', 'wiremock_id', 'created_at', 'updated_at']
+        columns = ['id', 'routing_url', 'original_url', 'operation', 'api_details', 'mock_url', 'lob', 'environment', 'headers', 'parameters', 'wiremock_id', 'created_at', 'updated_at']
         
         result = []
         for row in rows:
@@ -382,7 +415,7 @@ def delete_record(record_id):
         return False
 
 
-
+add_routing_url_column()
 
 # create_wiremock_table()
 
