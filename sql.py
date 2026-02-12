@@ -415,7 +415,7 @@ def delete_record(record_id):
         return False
 
 
-add_routing_url_column()
+# add_routing_url_column()
 
 # create_wiremock_table()
 
