@@ -57,14 +57,14 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # Header with Logo
-col_logo, col_title = st.columns([1, 4])
-with col_logo:
-    try:
-        st.image("src/ValueMomentum_logo.png", width=100)
-    except:
-        st.write("")
-with col_title:
-    st.markdown('<div class="main-header">Command Center(NPE Services Virtualization)</div>', unsafe_allow_html=True)
+# col_logo, col_title = st.columns([1, 4])
+# with col_logo:
+#     try:
+st.image("src/ValueMomentum_logo.png", width=100)
+    # except:
+        # st.write("")
+# with col_title:
+st.markdown('<div class="main-header">Command Center(NPE Services Virtualization)</div>', unsafe_allow_html=True)
 
 # Sidebar Navigation
 # st.sidebar.title("Navigation")
