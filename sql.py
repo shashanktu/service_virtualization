@@ -24,7 +24,7 @@ def list_retool_tables():
 def create_wiremock_table():
     conn = connect_to_retool()
     cursor = conn.cursor()
-
+    # Name table as service virtualisation
     create_table_query = """
     CREATE TABLE IF NOT EXISTS wiremock (
         id SERIAL PRIMARY KEY,
@@ -37,7 +37,7 @@ def create_wiremock_table():
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );
     """
-
+      
     cursor.execute(create_table_query)
     conn.commit()
 

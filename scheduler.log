@@ -253,3 +253,117 @@
 2026-02-13 14:19:41,910 - INFO - Found 1 records to check
 2026-02-13 14:19:45,010 - INFO - Record 32: GET https://guidewire-claims.vercel.app/get_records - Status: 200, Time: 3098ms
 2026-02-13 14:19:49,795 - INFO - Health check completed: 1/0 successful
+2026-02-13 17:52:40,517 - INFO - Starting scheduler with 0h 2m (2 minutes) interval
+2026-02-13 17:52:40,530 - INFO - Starting scheduled health check...
+2026-02-13 17:52:43,088 - INFO - Found 1 records to check
+2026-02-13 17:52:44,512 - INFO - Record 41: GET https://guidewire-claims.vercel.app/claim_numbers - Status: 200, Time: 1421ms
+2026-02-13 17:52:49,125 - INFO - Health check completed: 1 successful
+2026-02-13 17:54:49,112 - INFO - Starting scheduled health check...
+2026-02-13 17:54:51,783 - INFO - No records found in database
+2026-02-13 17:57:51,767 - INFO - Starting scheduled health check...
+2026-02-13 17:57:54,452 - INFO - No records found in database
+2026-02-13 18:00:54,441 - INFO - Starting scheduled health check...
+2026-02-13 18:00:56,954 - INFO - No records found in database
+2026-02-13 18:03:56,939 - INFO - Starting scheduled health check...
+2026-02-13 18:03:59,372 - INFO - No records found in database
+2026-02-13 18:06:59,360 - INFO - Starting scheduled health check...
+2026-02-13 18:07:02,027 - INFO - No records found in database
+2026-02-13 18:10:02,029 - INFO - Starting scheduled health check...
+2026-02-13 18:10:04,687 - INFO - No records found in database
+2026-02-13 18:13:04,681 - INFO - Starting scheduled health check...
+2026-02-13 18:13:07,161 - INFO - Found 1 records to check
+2026-02-13 18:13:09,443 - INFO - Record 42: GET https://guidewire-claims.vercel.app/get_records - Status: 200, Time: 2271ms
+2026-02-13 18:13:14,941 - INFO - Health check completed: 1 successful
+2026-02-13 18:16:14,943 - INFO - Starting scheduled health check...
+2026-02-13 18:16:17,518 - INFO - Found 1 records to check
+2026-02-13 18:16:19,869 - INFO - Record 42: GET https://guidewire-claims.vercel.app/get_records - Status: 200, Time: 2349ms
+2026-02-13 18:16:25,294 - INFO - Health check completed: 1 successful
+2026-02-13 18:18:25,298 - INFO - Starting scheduled health check...
+2026-02-13 18:18:27,985 - INFO - Found 1 records to check
+2026-02-13 18:18:30,234 - INFO - Record 42: GET https://guidewire-claims.vercel.app/get_records - Status: 200, Time: 2248ms
+2026-02-13 18:18:35,846 - INFO - Health check completed: 1 successful
+2026-02-13 18:22:59,289 - INFO - Starting scheduled health check...
+2026-02-13 18:23:03,200 - INFO - Found 1 records to check
+2026-02-13 18:23:05,990 - INFO - Record 42: GET https://guidewire-claims.vercel.app/get_records - Status: 200, Time: 2790ms
+2026-02-13 18:23:11,326 - INFO - Health check completed: 1 successful
+2026-02-13 18:26:21,033 - INFO - Starting scheduled health check...
+2026-02-13 18:26:23,687 - INFO - No records found in database
+2026-02-13 18:28:23,699 - INFO - Starting scheduled health check...
+2026-02-13 18:28:26,576 - INFO - No records found in database
+2026-02-13 18:30:26,595 - INFO - Starting scheduled health check...
+2026-02-13 18:30:29,150 - INFO - No records found in database
+2026-02-13 18:32:29,160 - INFO - Starting scheduled health check...
+2026-02-13 18:32:31,539 - INFO - No records found in database
+2026-02-13 18:34:31,548 - INFO - Starting scheduled health check...
+2026-02-13 18:34:34,052 - INFO - No records found in database
+2026-02-13 18:36:34,060 - INFO - Starting scheduled health check...
+2026-02-13 18:36:36,519 - INFO - Found 1 records to check
+2026-02-13 18:36:38,989 - INFO - Record 43: GET https://guidewire-claims.vercel.app/get_records - Status: 200, Time: 2469ms
+2026-02-13 18:36:44,321 - INFO - Health check completed: 1 successful
+2026-02-13 18:38:44,329 - INFO - Starting scheduled health check...
+2026-02-13 18:38:46,734 - INFO - Found 1 records to check
+2026-02-13 18:38:49,235 - INFO - Record 43: GET https://guidewire-claims.vercel.app/get_records - Status: 200, Time: 2499ms
+2026-02-13 18:38:54,618 - INFO - Health check completed: 1 successful
+2026-02-13 18:40:54,626 - INFO - Starting scheduled health check...
+2026-02-13 18:40:57,052 - INFO - Found 1 records to check
+2026-02-13 18:40:59,373 - INFO - Record 43: GET https://guidewire-claims.vercel.app/get_records - Status: 200, Time: 2320ms
+2026-02-13 18:41:04,723 - INFO - Health check completed: 1 successful
+2026-02-13 18:43:04,730 - INFO - Starting scheduled health check...
+2026-02-13 18:43:07,057 - INFO - Found 1 records to check
+2026-02-13 18:43:09,389 - INFO - Record 43: GET https://guidewire-claims.vercel.app/get_records - Status: 200, Time: 2330ms
+2026-02-13 18:43:14,648 - INFO - Health check completed: 1 successful
+2026-02-13 18:45:14,654 - INFO - Starting scheduled health check...
+2026-02-13 18:45:17,091 - INFO - Found 1 records to check
+2026-02-13 18:45:19,484 - INFO - Record 43: GET https://guidewire-claims.vercel.app/get_records - Status: 200, Time: 2393ms
+2026-02-13 18:45:24,951 - INFO - Health check completed: 1 successful
+2026-02-13 18:46:14,411 - INFO - Starting scheduler with 0h 2m (2 minutes) interval
+2026-02-13 18:46:14,413 - INFO - Starting scheduled health check...
+2026-02-13 18:46:16,724 - INFO - Found 1 records to check
+2026-02-13 18:46:18,385 - INFO - Record 43: GET https://guidewire-claims.vercel.app/get_records - Status: 200, Time: 1660ms
+2026-02-13 18:46:22,711 - INFO - Health check completed: 1 successful
+2026-02-13 18:48:22,717 - INFO - Starting scheduled health check...
+2026-02-13 18:48:25,045 - INFO - No records found in database
+2026-02-13 18:50:25,053 - INFO - Starting scheduled health check...
+2026-02-13 18:50:27,512 - INFO - No records found in database
+2026-02-13 18:52:27,521 - INFO - Starting scheduled health check...
+2026-02-13 18:52:29,907 - INFO - Found 1 records to check
+2026-02-13 18:52:32,455 - INFO - Record 44: GET https://guidewire-claims.vercel.app/claim/CLM-2025-00123456 - Status: 200, Time: 2547ms
+2026-02-13 18:52:37,749 - INFO - Health check completed: 1 successful
+2026-02-13 18:54:37,755 - INFO - Starting scheduled health check...
+2026-02-13 18:54:40,130 - INFO - Found 1 records to check
+2026-02-13 18:54:42,510 - INFO - Record 44: GET https://guidewire-claims.vercel.app/claim/CLM-2025-00123456 - Status: 200, Time: 2378ms
+2026-02-13 18:54:47,820 - INFO - Health check completed: 1 successful
+2026-02-13 18:56:47,828 - INFO - Starting scheduled health check...
+2026-02-13 18:56:50,353 - INFO - Found 1 records to check
+2026-02-13 18:56:52,853 - INFO - Record 44: GET https://guidewire-claims.vercel.app/claim/CLM-2025-00123456 - Status: 200, Time: 2500ms
+2026-02-13 18:56:58,296 - INFO - Health check completed: 1 successful
+2026-02-13 18:58:58,302 - INFO - Starting scheduled health check...
+2026-02-13 18:59:00,717 - INFO - Found 1 records to check
+2026-02-13 18:59:03,317 - INFO - Record 44: GET https://guidewire-claims.vercel.app/claim/CLM-2025-00123456 - Status: 200, Time: 2598ms
+2026-02-13 18:59:08,837 - INFO - Health check completed: 1 successful
+2026-02-13 19:01:08,842 - INFO - Starting scheduled health check...
+2026-02-13 19:01:11,143 - INFO - Found 1 records to check
+2026-02-13 19:01:12,763 - INFO - Record 44: GET https://guidewire-claims.vercel.app/claim/CLM-2025-00123456 - Status: 200, Time: 1619ms
+2026-02-13 19:01:17,175 - INFO - Health check completed: 1 successful
+2026-02-13 19:03:17,179 - INFO - Starting scheduled health check...
+2026-02-13 19:03:19,714 - INFO - Found 1 records to check
+2026-02-13 19:03:21,415 - INFO - Record 44: GET https://guidewire-claims.vercel.app/claim/CLM-2025-00123456 - Status: 200, Time: 1697ms
+2026-02-13 19:03:26,020 - INFO - Health check completed: 1 successful
+2026-02-13 19:05:26,028 - INFO - Starting scheduled health check...
+2026-02-13 19:05:28,357 - INFO - Found 1 records to check
+2026-02-13 19:05:30,868 - INFO - Record 44: GET https://guidewire-claims.vercel.app/claim/CLM-2025-00123456 - Status: 200, Time: 2508ms
+2026-02-13 19:05:36,232 - INFO - Health check completed: 1 successful
+2026-02-13 19:07:36,238 - INFO - Starting scheduled health check...
+2026-02-13 19:07:38,539 - INFO - Found 1 records to check
+2026-02-13 19:07:40,952 - INFO - Record 44: GET https://guidewire-claims.vercel.app/claim/CLM-2025-00123456 - Status: 200, Time: 2412ms
+2026-02-13 19:07:46,212 - INFO - Health check completed: 1 successful
+2026-02-13 19:09:46,217 - INFO - Starting scheduled health check...
+2026-02-13 19:09:48,537 - INFO - Found 1 records to check
+2026-02-13 19:09:50,903 - INFO - Record 44: GET https://guidewire-claims.vercel.app/claim/CLM-2025-00123456 - Status: 200, Time: 2365ms
+2026-02-13 19:09:56,178 - INFO - Health check completed: 1 successful
+2026-02-13 19:11:56,184 - INFO - Starting scheduled health check...
+2026-02-13 19:11:58,575 - INFO - Found 1 records to check
+2026-02-13 19:12:01,023 - INFO - Record 44: GET https://guidewire-claims.vercel.app/claim/CLM-2025-00123456 - Status: 200, Time: 2445ms
+2026-02-13 19:12:06,377 - INFO - Health check completed: 1 successful
+2026-02-13 19:14:06,385 - INFO - Starting scheduled health check...
+2026-02-13 19:14:08,802 - INFO - Found 1 records to check
