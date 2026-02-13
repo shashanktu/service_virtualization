@@ -413,7 +413,88 @@ def delete_record(record_id):
         print(f"❌ Error deleting record: {e}")
         
         return False
+    
+def get_routing_url():
+    try:
+        conn = connect_to_retool()
+        cursor = conn.cursor()
 
+        cursor.execute("SELECT routing_url FROM wiremock;")
+        rows = cursor.fetchall()
+        # cursor.execute("DELETE FROM wiremock WHERE id = %s;", (record_id,))
+        conn.commit()
+        
+        cursor.close()
+        conn.close()
+        
+        # print(rows)
+        return rows
+        
+    except Exception as e:
+        print(f"❌ Error deleting record: {e}")
+        
+        return False
+    
+
+def update_wiremock_by_routing_url(routing_url, **kwargs):
+    """
+    Update wiremock record(s) based on routing_url
+    
+    Args:
+        routing_url (str): The routing URL to match for update
+        **kwargs: Fields to update (original_url, operation, api_details, mock_url, 
+                 wiremock_id, lob, environment, headers, parameters)
+    
+    Returns:
+        int: Number of records updated, or -1 if update failed
+    """
+    try:
+        conn = connect_to_retool()
+        cursor = conn.cursor()
+
+        # Build dynamic update query based on provided kwargs
+        update_fields = []
+        values = []
+        
+        for field, value in kwargs.items():
+            if field in ['original_url', 'operation', 'api_details', 'mock_url', 'wiremock_id', 
+                        'lob', 'environment', 'headers', 'parameters']:
+                update_fields.append(f"{field} = %s")
+                values.append(value)
+        
+        if not update_fields:
+            print("❌ No valid fields provided for update")
+            return -1
+        
+        # Always update the updated_at timestamp
+        update_fields.append("updated_at = CURRENT_TIMESTAMP")
+        
+        # Add routing_url to values for WHERE clause
+        values.append(routing_url)
+        
+        update_query = f"""
+        UPDATE wiremock
+        SET {', '.join(update_fields)}
+        WHERE routing_url = %s;
+        """
+
+        cursor.execute(update_query, values)
+        rows_affected = cursor.rowcount
+        conn.commit()
+        
+        cursor.close()
+        conn.close()
+        
+        print(f"✅ Updated {rows_affected} record(s) with routing_url: {routing_url}")
+        return rows_affected
+        
+    except Exception as e:
+        print(f"❌ Error updating data: {e}")
+        if 'conn' in locals():
+            conn.rollback()
+            cursor.close()
+            conn.close()
+        return None
 
 # add_routing_url_column()
 

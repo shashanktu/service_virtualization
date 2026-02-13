@@ -3,7 +3,8 @@ import requests
 import json
 from datetime import datetime
 from urllib.parse import urlparse
-from sql import create_wiremock_table, insert_wiremock_data
+from sql import create_wiremock_table, insert_wiremock_data,get_routing_url, update_wiremock_by_routing_url
+
 
 # Page config
 st.set_page_config(
@@ -76,10 +77,16 @@ st.markdown('<div class="main-header">Command Center(NPE Services Virtualization
 #     st.switch_page("pages/Routing_Portal.py")
 
 # Main interface
+# st.write(get_routing_url())
 col1, col2 = st.columns([1, 1])
 
 with col1:
     st.subheader("Request Configuration")
+    
+    # Routing URL dropdown
+    routing_urls = get_routing_url()
+    routing_url_list = [url[0] for url in routing_urls] if routing_urls else []
+    selected_routing_url = st.selectbox("Routing URL", routing_url_list if routing_url_list else ["No routing URLs available"])
     
     # HTTP Method and URL
     method_col, url_col = st.columns([1, 4])
@@ -336,7 +343,8 @@ with col2:
 
                     
                     # Store in database with LOB and Environment
-                    record_id = insert_wiremock_data(
+                    rows_updated = update_wiremock_by_routing_url(
+                        routing_url=selected_routing_url,
                         original_url=url,
                         operation=method,
                         api_details=json.dumps(api_details_data),
@@ -348,11 +356,11 @@ with col2:
                         parameters=json.dumps(params)
                     )
                     
-                    if record_id:
-                        st.success(f"Mock API created and stored in database with ID: {record_id}")
+                    if rows_updated and rows_updated > 0:
+                        st.success(f"Mock API created and updated {rows_updated} record(s) in database")
                         st.info(f"Mock endpoint: {mock_endpoint_url}")
                     else:
-                        st.warning("Mock API created but failed to store in database")
+                        st.warning("Mock API created but failed to update database")
                 
                 # Display mock response
                 status_color = "success" if 200 <= response.status_code < 300 else "error"
