@@ -4,7 +4,7 @@ import requests
 import json
 import logging
 from datetime import datetime
-from sql import get_wiremock_data, connect_to_retool,update_wiremock_data
+from sql import get_wiremock_data, connect_to_retool,update_wiremock_data,get_existing_wiremock
 from wiremock import update_wiremock
 
 # Configure logging
@@ -87,7 +87,7 @@ def scheduled_health_check():
     
     try:
         # Get all records from database
-        records = get_wiremock_data()
+        records = get_existing_wiremock()
         
         if not records:
             logging.info("No records found in database")

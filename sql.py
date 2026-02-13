@@ -317,6 +317,26 @@ def insert_wiremock_data(routing_url, original_url=None, operation=None, api_det
             conn.close()
         return None
 
+
+def get_existing_wiremock():
+    try:
+        conn = connect_to_retool()
+        cursor = conn.cursor()
+
+        select_query = "SELECT id, routing_url, original_url, operation, api_details, mock_url, lob, environment, headers, parameters, wiremock_id, created_at, updated_at FROM wiremock WHERE mock_url != 'mock url deleted' AND mock_url IS NOT NULL"
+        cursor.execute(select_query)
+        records = cursor.fetchall()
+
+        cursor.close()
+        conn.close()
+
+        return records
+
+    except Exception as e:
+        print(f"❌ Error retrieving data: {e}")
+        return []
+
+
 def get_wiremock_data(wiremock_id=None):
     """
     Retrieve data from the wiremock table
