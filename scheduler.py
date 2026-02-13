@@ -20,25 +20,25 @@ logging.basicConfig(
 def hit_original_url(record):
     """Hit the original URL with stored headers and parameters"""
     try:
-        url = record['original_url']
-        operation = record['operation'] or 'GET'
-        mock_url = record['mock_url'] or ''
+        url = record[2]  # original_url
+        operation = record[3] or 'GET'  # operation
+        mock_url = record[5] or ''  # mock_url
         
         # Parse headers and parameters from JSON
         headers = {}
         params = {}
         
-        if record['headers']:
+        if record[8]:  # headers
             try:
-                headers = json.loads(record['headers'])
+                headers = json.loads(record[8])
             except json.JSONDecodeError:
-                logging.warning(f"Invalid headers JSON for record {record['id']}")
+                logging.warning(f"Invalid headers JSON for record {record[0]}")
         
-        if record['parameters']:
+        if record[9]:  # parameters
             try:
-                params = json.loads(record['parameters'])
+                params = json.loads(record[9])
             except json.JSONDecodeError:
-                logging.warning(f"Invalid parameters JSON for record {record['id']}")
+                logging.warning(f"Invalid parameters JSON for record {record[0]}")
         
         # Make the request
         start_time = datetime.now()
@@ -56,27 +56,27 @@ def hit_original_url(record):
         
         end_time = datetime.now()
         response_time = (end_time - start_time).total_seconds() * 1000
-        # print(response.text)
-        logging.info(f"Record {record['id']}: {operation} {url} - Status: {response.status_code}, Time: {response_time:.0f}ms")
-        status=update_wiremock(record['wiremock_id'],mock_url,response.text)
+        
+        logging.info(f"Record {record[0]}: {operation} {url} - Status: {response.status_code}, Time: {response_time:.0f}ms")
+        status=update_wiremock(record[10], mock_url, response.text)  # wiremock_id
         return {
-            'id': record['id'],
+            'id': record[0],
             'status_code': response.status_code,
             'response_time': response_time,
             'success': 200 <= response.status_code < 300
         }
         
     except requests.exceptions.RequestException as e:
-        logging.error(f"Record {record['id']}: Request failed - {str(e)}")
+        logging.error(f"Record {record[0]}: Request failed - {str(e)}")
         return {
-            'id': record['id'],
+            'id': record[0],
             'error': str(e),
             'success': False
         }
     except Exception as e:
-        logging.error(f"Record {record['id']}: Unexpected error - {str(e)}")
+        logging.error(f"Record {record[0]}: Unexpected error - {str(e)}")
         return {
-            'id': record['id'],
+            'id': record[0],
             'error': str(e),
             'success': False
         }
@@ -99,18 +99,18 @@ def scheduled_health_check():
         success_count = 0
         
         for record in records:
-            if record['original_url']:
+            if record[2]:  # original_url
                 result = hit_original_url(record)
-                id=record['id']
+                id=record[0]  # id
                 status=update_wiremock_data(id)
 
                 # results.append(result)
                 if result.get('success'):
                     success_count += 1
             else:
-                logging.warning(f"Record {record['id']}: No original URL found")
+                logging.warning(f"Record {record[0]}: No original URL found")
         
-        logging.info(f"Health check completed: {success_count}/{len(results)} successful")
+        logging.info(f"Health check completed: {success_count} successful")
         
         # Log summary
         failed_records = [r for r in results if not r.get('success')]

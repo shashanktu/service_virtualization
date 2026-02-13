@@ -270,7 +270,40 @@ def add_routing_url_column():
     cursor.close()
     conn.close()
 
-def insert_wiremock_data(routing_url, original_url=None, operation=None, api_details=None, mock_url=None, wiremock_id=None, lob=None, environment=None, headers=None, parameters=None):
+def add_name_description_columns():
+    """
+    Add name and description columns to existing wiremock table if they don't exist
+    """
+    conn = connect_to_retool()
+    cursor = conn.cursor()
+    
+    try:
+        cursor.execute("""
+            SELECT column_name 
+            FROM information_schema.columns 
+            WHERE table_name = 'wiremock' AND table_schema = 'public';
+        """)
+        existing_columns = [row[0] for row in cursor.fetchall()]
+        
+        if 'name' not in existing_columns:
+            cursor.execute("ALTER TABLE wiremock ADD COLUMN name VARCHAR(255);")
+            print("✅ Added 'name' column to wiremock table")
+        
+        if 'description' not in existing_columns:
+            cursor.execute("ALTER TABLE wiremock ADD COLUMN description TEXT;")
+            print("✅ Added 'description' column to wiremock table")
+        
+        conn.commit()
+        print("✅ Name and description columns updated successfully")
+        
+    except Exception as e:
+        print(f"❌ Error updating table structure: {e}")
+        conn.rollback()
+    
+    cursor.close()
+    conn.close()
+
+def insert_wiremock_data(routing_url, original_url=None, operation=None, api_details=None, mock_url=None, wiremock_id=None, lob=None, environment=None, headers=None, parameters=None, name=None, description=None):
     """
     Insert data into the wiremock table
     
@@ -285,6 +318,8 @@ def insert_wiremock_data(routing_url, original_url=None, operation=None, api_det
         environment (str, optional): Environment (Dev, Test, Staging, Prod)
         headers (str, optional): JSON string containing headers
         parameters (str, optional): JSON string containing parameters
+        name (str, optional): Name of the URL
+        description (str, optional): Description of the URL
     
     Returns:
         int: The ID of the inserted record, or None if insertion failed
@@ -294,12 +329,12 @@ def insert_wiremock_data(routing_url, original_url=None, operation=None, api_det
         cursor = conn.cursor()
 
         insert_query = """
-        INSERT INTO wiremock (routing_url, original_url, operation, api_details, mock_url, wiremock_id, lob, environment, headers, parameters)
-        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+        INSERT INTO wiremock (routing_url, original_url, operation, api_details, mock_url, wiremock_id, lob, environment, headers, parameters, name, description)
+        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
         RETURNING id;
         """
 
-        cursor.execute(insert_query, (routing_url, original_url, operation, api_details, mock_url, wiremock_id, lob, environment, headers, parameters))
+        cursor.execute(insert_query, (routing_url, original_url, operation, api_details, mock_url, wiremock_id, lob, environment, headers, parameters, name, description))
         inserted_id = cursor.fetchone()[0]
         
         conn.commit()
@@ -323,7 +358,7 @@ def get_existing_wiremock():
         conn = connect_to_retool()
         cursor = conn.cursor()
 
-        select_query = "SELECT id, routing_url, original_url, operation, api_details, mock_url, lob, environment, headers, parameters, wiremock_id, created_at, updated_at FROM wiremock WHERE mock_url != 'mock url deleted' AND mock_url IS NOT NULL"
+        select_query = "SELECT id, routing_url, original_url, operation, api_details, mock_url, lob, environment, headers, parameters, wiremock_id, created_at, updated_at, name, description FROM wiremock WHERE mock_url != 'mock url deleted' AND mock_url IS NOT NULL"
         cursor.execute(select_query)
         records = cursor.fetchall()
 
@@ -352,14 +387,14 @@ def get_wiremock_data(wiremock_id=None):
         cursor = conn.cursor()
 
         if wiremock_id:
-            query = "SELECT id, routing_url, original_url, operation, api_details, mock_url, lob, environment, headers, parameters, wiremock_id, created_at, updated_at FROM wiremock WHERE id = %s;"
+            query = "SELECT id, routing_url, original_url, operation, api_details, mock_url, lob, environment, headers, parameters, wiremock_id, created_at, updated_at, name, description FROM wiremock WHERE id = %s;"
             cursor.execute(query, (wiremock_id,))
         else:
-            query = "SELECT id, routing_url, original_url, operation, api_details, mock_url, lob, environment, headers, parameters, wiremock_id, created_at, updated_at FROM wiremock ORDER BY created_at DESC;"
+            query = "SELECT id, routing_url, original_url, operation, api_details, mock_url, lob, environment, headers, parameters, wiremock_id, created_at, updated_at, name, description FROM wiremock ORDER BY created_at DESC;"
             cursor.execute(query)
 
         rows = cursor.fetchall()
-        columns = ['id', 'routing_url', 'original_url', 'operation', 'api_details', 'mock_url', 'lob', 'environment', 'headers', 'parameters', 'wiremock_id', 'created_at', 'updated_at']
+        columns = ['id', 'routing_url', 'original_url', 'operation', 'api_details', 'mock_url', 'lob', 'environment', 'headers', 'parameters', 'wiremock_id', 'created_at', 'updated_at', 'name', 'description']
         
         result = []
         for row in rows:
@@ -478,7 +513,7 @@ def update_wiremock_by_routing_url(routing_url, **kwargs):
         
         for field, value in kwargs.items():
             if field in ['original_url', 'operation', 'api_details', 'mock_url', 'wiremock_id', 
-                        'lob', 'environment', 'headers', 'parameters']:
+                        'lob', 'environment', 'headers', 'parameters', 'name', 'description']:
                 update_fields.append(f"{field} = %s")
                 values.append(value)
         
@@ -515,6 +550,8 @@ def update_wiremock_by_routing_url(routing_url, **kwargs):
             cursor.close()
             conn.close()
         return None
+
+add_name_description_columns()
 
 # add_routing_url_column()
 

@@ -244,3 +244,12 @@
 2026-02-10 15:21:33,382 - INFO - Found 1 records to check
 2026-02-10 15:21:36,010 - INFO - Record 28: GET https://guidewire-claims.vercel.app/get_records - Status: 200, Time: 2624ms
 2026-02-10 15:21:41,680 - INFO - Health check completed: 1/0 successful
+2026-02-13 14:17:08,725 - INFO - Starting scheduler with 0h 2m (2 minutes) interval
+2026-02-13 14:17:08,727 - INFO - Starting scheduled health check...
+2026-02-13 14:17:11,308 - INFO - Found 1 records to check
+2026-02-13 14:17:11,308 - ERROR - Scheduler error: tuple indices must be integers or slices, not str
+2026-02-13 14:19:38,986 - INFO - Starting scheduler with 0h 2m (2 minutes) interval
+2026-02-13 14:19:38,986 - INFO - Starting scheduled health check...
+2026-02-13 14:19:41,910 - INFO - Found 1 records to check
+2026-02-13 14:19:45,010 - INFO - Record 32: GET https://guidewire-claims.vercel.app/get_records - Status: 200, Time: 3098ms
+2026-02-13 14:19:49,795 - INFO - Health check completed: 1/0 successful

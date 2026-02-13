@@ -83,10 +83,9 @@ col1, col2 = st.columns([1, 1])
 with col1:
     st.subheader("Request Configuration")
     
-    # Routing URL dropdown
-    routing_urls = get_routing_url()
-    routing_url_list = [url[0] for url in routing_urls] if routing_urls else []
-    selected_routing_url = st.selectbox("Routing URL", routing_url_list if routing_url_list else ["No routing URLs available"])
+    # Name and Description fields
+    url_name = st.text_input("Name", placeholder="Enter a name for this URL")
+    url_description = st.text_area("Description", placeholder="Enter a description for this URL", height=100)
     
     # HTTP Method and URL
     method_col, url_col = st.columns([1, 4])
@@ -343,8 +342,8 @@ with col2:
 
                     
                     # Store in database with LOB and Environment
-                    rows_updated = update_wiremock_by_routing_url(
-                        routing_url=selected_routing_url,
+                    rows_updated = insert_wiremock_data(
+                        routing_url=mock_path,
                         original_url=url,
                         operation=method,
                         api_details=json.dumps(api_details_data),
@@ -353,12 +352,20 @@ with col2:
                         lob=lob if 'lob' in locals() else None,
                         environment=env if 'env' in locals() else None,
                         headers=json.dumps({**headers, **auth_headers}),
-                        parameters=json.dumps(params)
+                        parameters=json.dumps(params),
+                        name=url_name if url_name else None,
+                        description=url_description if url_description else None
                     )
                     
                     if rows_updated and rows_updated > 0:
                         st.success(f"Mock API created and updated {rows_updated} record(s) in database")
+                        
+                        # Display routing portal information
                         st.info(f"Mock endpoint: {mock_endpoint_url}")
+                        routing_base_url = "https://routing-portal-d3id.vercel.app"
+                        st.info(f"**Routing Portal Base URL:** `{routing_base_url}/route?routing_url={mock_path}`")
+                        st.info("**Note:** When triggering the routing URL, please include the URL name as a query parameter for proper routing.")
+                        
                     else:
                         st.warning("Mock API created but failed to update database")
                 

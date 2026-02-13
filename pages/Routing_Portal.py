@@ -96,21 +96,21 @@ try:
         st.subheader("All Records - Table View")
         
         # Create table headers
-        header_cols = st.columns([1, 1, 3, 3, 2, 1, 2, 2, 1, 1])
+        header_cols = st.columns([1, 2, 1, 2, 3, 3, 2, 1, 1, 1])
         with header_cols[0]:
             st.write("**ID**")
         with header_cols[1]:
-            st.write("**Method**")
+            st.write("**Name**")
         with header_cols[2]:
-            st.write("**Original URL**")
+            st.write("**Method**")
         with header_cols[3]:
-            st.write("**Mock URL**")
+            st.write("**Routing URL**")
         with header_cols[4]:
-            st.write("**WireMock ID**")
+            st.write("**Original URL**")
         with header_cols[5]:
-            st.write("**LOB**")
+            st.write("**Mock URL**")
         with header_cols[6]:
-            st.write("**Environment**")
+            st.write("**WireMock ID**")
         with header_cols[7]:
             st.write("**Created At**")
         with header_cols[8]:
@@ -127,22 +127,28 @@ try:
         
         # Display data rows
         for index, row in df.iterrows():
-            data_cols = st.columns([1, 1, 3, 3, 2, 1, 2, 2, 1, 1])
+            data_cols = st.columns([1, 2, 1, 2, 3, 3, 2, 1, 1, 1])
             
             with data_cols[0]:
                 st.write(row['id'])
             with data_cols[1]:
-                st.write(row.get('operation', 'N/A'))
+                name = row.get('name', 'N/A')
+                description = row.get('description', '')
+                if description:
+                    st.markdown(f'<span title="{description}" style="cursor:help;border-bottom:1px dotted #666;">{name}</span>', unsafe_allow_html=True)
+                else:
+                    st.write(name)
             with data_cols[2]:
-                st.write(row['original_url'])
+                st.write(row.get('operation', 'N/A'))
             with data_cols[3]:
-                st.write(row.get('mock_url', 'N/A'))
+                routing_url = f"https://routing-portal-d3id.vercel.app/route?routing_url={row.get('routing_url', '')}"
+                st.write(routing_url)
             with data_cols[4]:
-                st.write(row.get('wiremock_id', 'N/A'))
+                st.write(row['original_url'])
             with data_cols[5]:
-                st.write(row.get('lob', 'N/A'))
+                st.write(row.get('mock_url', 'N/A'))
             with data_cols[6]:
-                st.write(row.get('environment', 'N/A'))
+                st.write(row.get('wiremock_id', 'N/A'))
             with data_cols[7]:
                 st.write(row.get('created_at', 'N/A'))
             with data_cols[8]:
